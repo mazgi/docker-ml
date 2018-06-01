@@ -7,4 +7,6 @@ RUN : 'Install basic packages' \
   && pip3 install --upgrade pip && hash -r pip3 \
   && pip3 install setuptools cython \
   && : 'Install ML packages' \
-  && pip3 install numpy scipy pandas scikit-learn
+  && pip3 install numpy scipy pandas scikit-learn \
+  && : 'Install Kaggle CLI' \
+  && pip3 install kaggle
