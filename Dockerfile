@@ -5,4 +5,6 @@ RUN : 'Install basic packages' \
   && : 'Install python3 packages' \
   && apt install -y --no-install-recommends python3-dev python3-pip \
   && pip3 install --upgrade pip && hash -r pip3 \
-  && pip3 install setuptools cython
+  && pip3 install setuptools cython \
+  && : 'Install ML packages' \
+  && pip3 install numpy scipy pandas scikit-learn
