@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04
 
 RUN : 'Install basic packages' \
   && apt update && apt install -y --no-install-recommends curl git \
