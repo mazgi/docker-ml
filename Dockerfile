@@ -8,5 +8,8 @@ RUN : 'Install basic packages' \
   && pip3 install setuptools cython \
   && : 'Install ML packages' \
   && pip3 install numpy scipy pandas scikit-learn \
+  && : 'Install Jupyter Notebook' \
+  && pip3 install jupyter \
   && : 'Install Kaggle CLI' \
-  && pip3 install kaggle
+  && pip3 install kaggle \
+  && : 'End of installation process 🎉'
