@@ -1,0 +1,60 @@
+{
+  "variables": {
+    "ecr_repository_uri": "{{ env `ECR_REPOSITORY_URI` }}",
+    "ecr_aws_access_key": "{{ env `ECR_AWS_ACCESS_KEY` }}",
+    "ecr_aws_secret_key": "{{ env `ECR_AWS_SECRET_KEY` }}",
+    "gcr_project_id": "{{ env `GCR_PROJECT_ID` }}"
+  },
+  "builders": [
+    {
+      "type": "docker",
+      "image": "nvidia/cuda:9.2-cudnn7-devel-ubuntu18.04",
+      "commit": true
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "apt update && apt install -y --no-install-recommends curl git",
+        "apt install -y --no-install-recommends python3-dev python3-pip",
+        "pip3 install --upgrade pip",
+        "hash -r pip3",
+        "pip3 install setuptools cython",
+        "pip3 install numpy scipy pandas scikit-learn",
+        "pip3 install jupyter",
+        "pip3 install kaggle"
+      ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "docker-tag",
+        "repository": "gcr.io/{{ user `gcr_project_id` }}/ml",
+        "tag": "latest"
+      },
+      {
+        "type": "shell-local",
+        "type": "shell-local",
+        "inline": [
+          "gcloud --project {{ user `gcr_project_id` }} docker -- push gcr.io/{{ user `gcr_project_id` }}/ml"
+        ]
+      }
+    ],
+    [
+      {
+        "type": "docker-tag",
+        "repository": "{{ user `ecr_repository_uri` }}/ml",
+        "tag": "latest"
+      },
+      {
+        "type": "docker-push",
+        "ecr_login": true,
+        "aws_access_key": "{{ user `ecr_aws_access_key` }}",
+        "aws_secret_key": "{{ user `ecr_aws_secret_key` }}",
+        "login_server": "{{ user `ecr_repository_uri` }}"
+      }
+    ]
+  ]
+}
