@@ -2,7 +2,8 @@
   "variables": {
     "ecr_repository_uri": "{{ env `ECR_REPOSITORY_URI` }}",
     "ecr_aws_access_key": "{{ env `ECR_AWS_ACCESS_KEY` }}",
-    "ecr_aws_secret_key": "{{ env `ECR_AWS_SECRET_KEY` }}"
+    "ecr_aws_secret_key": "{{ env `ECR_AWS_SECRET_KEY` }}",
+    "gcr_project_id": "{{ env `GCR_PROJECT_ID` }}"
   },
   "builders": [
     {
@@ -30,6 +31,13 @@
     [
       {
         "type": "docker-tag",
+        "repository": "gcr.io/{{ user `gcr_project_id` }}/ml",
+        "tag": "latest"
+      }
+    ],
+    [
+      {
+        "type": "docker-tag",
         "repository": "{{ user `ecr_repository_uri` }}/ml",
         "tag": "latest"
       },
@@ -38,7 +46,7 @@
         "ecr_login": true,
         "aws_access_key": "{{ user `ecr_aws_access_key` }}",
         "aws_secret_key": "{{ user `ecr_aws_secret_key` }}",
-        "login_server": "https://{{ user `ecr_repository_uri` }}"
+        "login_server": "{{ user `ecr_repository_uri` }}"
       }
     ]
   ]
