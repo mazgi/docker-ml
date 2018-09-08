@@ -1,7 +1,7 @@
 # docker-ml
 
 ```shellsession
-$ gcloud authh login
+$ gcloud auth login
 ```
 
 ```shellsession
