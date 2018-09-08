@@ -33,6 +33,13 @@
         "type": "docker-tag",
         "repository": "gcr.io/{{ user `gcr_project_id` }}/ml",
         "tag": "latest"
+      },
+      {
+        "type": "shell-local",
+        "type": "shell-local",
+        "inline": [
+          "gcloud --project {{ user `gcr_project_id` }} docker -- push gcr.io/{{ user `gcr_project_id` }}/ml"
+        ]
       }
     ],
     [
